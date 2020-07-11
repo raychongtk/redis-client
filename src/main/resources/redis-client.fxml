@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="uicontrol.controller.MainController"
+      prefHeight="400.0" prefWidth="600.0">
+    <HBox>
+        <Button fx:id="refreshKeys" prefHeight="25.0" prefWidth="128.0" onAction="#handleRefreshButtonEvent" text="Refresh">
+            <HBox.margin>
+                <Insets right="5"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="flushAll" prefHeight="25.0" prefWidth="128.0" onAction="#handleFlushAllButtonEvent" text="Flush All">
+            <HBox.margin>
+                <Insets right="5"/>
+            </HBox.margin>
+        </Button>
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </HBox>
+    <ListView prefWidth="80.0" prefHeight="200.0" onMouseClicked="#handleListItemEvent" fx:id="redisKeys">
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </ListView>
+    <TextArea prefWidth="80.0" prefHeight="200.0" wrapText="true" fx:id="redisResult">
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </TextArea>
+</VBox>
