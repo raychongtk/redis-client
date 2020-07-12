@@ -5,4 +5,6 @@ package redis.handler;
  */
 public interface RedisHandler {
     RedisData get(String key);
+
+    void update(String key, RedisData data);
 }

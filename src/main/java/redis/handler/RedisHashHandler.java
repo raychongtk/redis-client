@@ -12,4 +12,9 @@ public class RedisHashHandler implements RedisHandler {
         data.hash = Jedis.getInstance().hgetAll(key);
         return data;
     }
+
+    @Override
+    public void update(String key, RedisData data) {
+        Jedis.getInstance().hset(key, data.hash);
+    }
 }

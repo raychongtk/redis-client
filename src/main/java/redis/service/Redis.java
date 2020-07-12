@@ -44,4 +44,8 @@ public class Redis {
     public RedisData get(String key) {
         return RedisHandlers.of(type(key)).get(key);
     }
+
+    public void update(String key, RedisData data) {
+        RedisHandlers.of(type(key)).update(key, data);
+    }
 }

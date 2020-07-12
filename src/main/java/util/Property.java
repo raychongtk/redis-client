@@ -21,7 +21,7 @@ public class Property {
         }
     }
 
-    public static String property(String key) {
+    public static String get(String key) {
         return PROPERTIES.getProperty(key);
     }
 }

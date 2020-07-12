@@ -12,4 +12,10 @@ public class RedisSetHandler implements RedisHandler {
         data.set = Jedis.getInstance().smembers(key);
         return data;
     }
+
+    @Override
+    public void update(String key, RedisData data) {
+        Jedis.getInstance().spop(key, Jedis.getInstance().scard(key));
+        Jedis.getInstance().sadd(key, data.set.toArray(String[]::new));
+    }
 }

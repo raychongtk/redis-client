@@ -12,4 +12,9 @@ public class RedisStringHandler implements RedisHandler {
         data.string = Jedis.getInstance().get(key);
         return data;
     }
+
+    @Override
+    public void update(String key, RedisData data) {
+        Jedis.getInstance().set(key, data.string);
+    }
 }

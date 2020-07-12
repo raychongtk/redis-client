@@ -10,7 +10,7 @@ public class Jedis {
 
     public static redis.clients.jedis.Jedis getInstance() {
         if (jedis == null) {
-            jedis = new redis.clients.jedis.Jedis(Property.property("redis.uri"));
+            jedis = new redis.clients.jedis.Jedis(Property.get("redis.uri"));
         }
         return jedis;
     }
