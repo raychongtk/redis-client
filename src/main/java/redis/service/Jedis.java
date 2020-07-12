@@ -1,6 +1,6 @@
 package redis.service;
 
-import redis.util.RedisProperty;
+import util.Property;
 
 /**
  * @author raychong
@@ -10,7 +10,7 @@ public class Jedis {
 
     public static redis.clients.jedis.Jedis getInstance() {
         if (jedis == null) {
-            jedis = new redis.clients.jedis.Jedis(RedisProperty.URI);
+            jedis = new redis.clients.jedis.Jedis(Property.property("redis.uri"));
         }
         return jedis;
     }
