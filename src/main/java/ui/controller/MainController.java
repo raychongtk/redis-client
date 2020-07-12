@@ -88,21 +88,15 @@ public class MainController implements Initializable {
         switch (redis.type(key)) {
             case STRING:
                 redisResult.setText(redis.get(key).string);
-                redisResult.setVisible(true);
-                redisSetResult.setVisible(false);
-                redisHashResult.setVisible(false);
+                showResult(true, false, false);
                 break;
             case SET:
                 redisSetResultListProperty.set(FXCollections.observableArrayList(redis.get(key).set));
-                redisSetResult.setVisible(true);
-                redisResult.setVisible(false);
-                redisHashResult.setVisible(false);
+                showResult(false, true, false);
                 break;
             case HASH:
                 redisHashResult.setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
-                redisHashResult.setVisible(true);
-                redisSetResult.setVisible(false);
-                redisResult.setVisible(false);
+                showResult(false, false, true);
                 break;
             default:
                 break;
@@ -140,5 +134,11 @@ public class MainController implements Initializable {
 
     private void setResultCount(int size) {
         resultCount.setText("Number of Count: " + size);
+    }
+
+    private void showResult(boolean string, boolean set, boolean hash) {
+        redisResult.setVisible(string);
+        redisSetResult.setVisible(set);
+        redisHashResult.setVisible(hash);
     }
 }
