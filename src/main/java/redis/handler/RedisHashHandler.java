@@ -7,7 +7,9 @@ import redis.service.Jedis;
  */
 public class RedisHashHandler implements RedisHandler {
     @Override
-    public String get(String key) {
-        return Jedis.getInstance().hgetAll(key).toString();
+    public RedisData get(String key) {
+        var data = new RedisData();
+        data.hash = Jedis.getInstance().hgetAll(key);
+        return data;
     }
 }

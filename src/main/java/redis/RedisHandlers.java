@@ -16,7 +16,7 @@ public class RedisHandlers {
     private static final Map<RedisType, RedisHandler> PROPERTIES = properties();
 
     public static RedisHandler of(RedisType dataType) {
-        if (RedisHandlerProperties.of(dataType).hasHandler()) return PROPERTIES.get(dataType);
+        if (RedisHandlerProperties.of(dataType).supported()) return PROPERTIES.get(dataType);
         throw new UnsupportedOperationException();
     }
 

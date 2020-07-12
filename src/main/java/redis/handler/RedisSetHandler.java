@@ -7,7 +7,9 @@ import redis.service.Jedis;
  */
 public class RedisSetHandler implements RedisHandler {
     @Override
-    public String get(String key) {
-        return Jedis.getInstance().smembers(key).toString();
+    public RedisData get(String key) {
+        var data = new RedisData();
+        data.set = Jedis.getInstance().smembers(key);
+        return data;
     }
 }

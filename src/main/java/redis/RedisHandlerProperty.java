@@ -4,13 +4,13 @@ package redis;
  * @author raychong
  */
 public class RedisHandlerProperty {
-    private final boolean hasHandler;
+    private final boolean supported;
 
-    public RedisHandlerProperty(boolean hasHandler) {
-        this.hasHandler = hasHandler;
+    public RedisHandlerProperty(boolean supported) {
+        this.supported = supported;
     }
 
-    public boolean hasHandler() {
-        return hasHandler;
+    public boolean supported() {
+        return supported;
     }
 }

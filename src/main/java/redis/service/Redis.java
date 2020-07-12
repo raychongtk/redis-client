@@ -2,6 +2,7 @@ package redis.service;
 
 import redis.RedisHandlers;
 import redis.clients.jedis.Jedis;
+import redis.handler.RedisData;
 
 import java.util.Set;
 
@@ -32,11 +33,15 @@ public class Redis {
         return keys("*");
     }
 
+    public RedisType type(String key) {
+        return RedisType.valueOf(jedis.type(key).toUpperCase());
+    }
+
     public void flushAll() {
         jedis.flushAll();
     }
 
-    public String get(String key) {
-        return RedisHandlers.of(RedisType.valueOf(jedis.type(key).toUpperCase())).get(key);
+    public RedisData get(String key) {
+        return RedisHandlers.of(type(key)).get(key);
     }
 }
