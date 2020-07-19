@@ -25,9 +25,9 @@
             <ColumnConstraints hgrow="ALWAYS"/>
         </columnConstraints>
         <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="40" text="Key:"/>
-        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="redisKey"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="redisInputKey"/>
         <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="40" text="Type:"/>
-        <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="redisType"/>
+        <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="redisInputType"/>
         <VBox.margin>
             <Insets top="5" bottom="5"/>
         </VBox.margin>

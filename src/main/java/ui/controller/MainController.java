@@ -99,14 +99,14 @@ public class MainController implements Initializable {
 
         // on text changed
         searchBox.textProperty().addListener((obs, oldText, newText) -> {
-            Set<String> keySet;
+            Set<String> keys;
             if (Strings.isBlank(newText)) {
-                keySet = redis.keys();
+                keys = redis.keys();
             } else {
-                keySet = redis.keys(newText);
+                keys = redis.keys(newText);
             }
-            keysListProperty.set(FXCollections.observableArrayList(keySet));
-            setResultCount(keySet.size());
+            keysListProperty.set(FXCollections.observableArrayList(keys));
+            setResultCount(keys.size());
         });
 
         showResult(false, false, false);
@@ -114,18 +114,18 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleListItemEvent() {
-        String key = redisKeys.getSelectionModel().getSelectedItem();
-        switch (redis.type(key)) {
+        String redisKey = redisKeys.getSelectionModel().getSelectedItem();
+        switch (redis.type(redisKey)) {
             case STRING:
-                redisResult.setText(redis.get(key).string);
+                redisResult.setText(redis.get(redisKey).string);
                 showResult(true, false, false);
                 break;
             case SET:
-                redisSetResultListProperty.set(FXCollections.observableArrayList(redis.get(key).set));
+                redisSetResultListProperty.set(FXCollections.observableArrayList(redis.get(redisKey).set));
                 showResult(false, true, false);
                 break;
             case HASH:
-                redisHashResult.setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
+                redisHashResult.setItems(FXCollections.observableArrayList(redis.get(redisKey).hash.entrySet()));
                 showResult(false, false, true);
                 break;
             default:
@@ -149,26 +149,17 @@ public class MainController implements Initializable {
 
     @FXML
     public void updateValue() {
-        String key = redisKeys.getSelectionModel().getSelectedItem();
-        if (Strings.isBlank(key)) {
+        String redisKey = redisKeys.getSelectionModel().getSelectedItem();
+        if (Strings.isBlank(redisKey)) {
             AlertUtil.warn("key cannot be null");
             return;
         }
 
-        RedisType type = redis.type(key);
-
-        var data = new RedisData();
-        if (type == STRING) {
-            data.string = redisResult.getText();
-        } else if (type == SET) {
-            data.set = new HashSet<>(redisSetResultListProperty);
-        } else if (type == HASH) {
-            data.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        }
-
-        RedisObject redisObject = new RedisObjectBuilder().key(key)
-                                                          .type(type)
-                                                          .data(data)
+        RedisType redisType = redis.type(redisKey);
+        RedisData redisData = redisData(redisType);
+        RedisObject redisObject = new RedisObjectBuilder().key(redisKey)
+                                                          .type(redisType)
+                                                          .data(redisData)
                                                           .build();
         redis.update(redisObject);
         AlertUtil.info("update successfully!");
@@ -215,6 +206,20 @@ public class MainController implements Initializable {
         redisSetResult.setVisible(set);
         redisHashResult.setVisible(hash);
         update.setVisible(string || set || hash);
+    }
+
+    private RedisData redisData(RedisType redisType) {
+        var redisData = new RedisData();
+
+        if (redisType == STRING) {
+            redisData.string = redisResult.getText();
+        } else if (redisType == SET) {
+            redisData.set = new HashSet<>(redisSetResultListProperty);
+        } else if (redisType == HASH) {
+            redisData.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+
+        return redisData;
     }
 
     private void setResultCount(int size) {

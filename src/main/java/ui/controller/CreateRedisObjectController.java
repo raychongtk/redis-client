@@ -47,7 +47,7 @@ public class CreateRedisObjectController implements Initializable {
     private final Redis redis = Redis.getInstance();
 
     @FXML
-    TextField redisKey;
+    TextField redisInputKey;
     @FXML
     TextField redisSetInputValue;
     @FXML
@@ -55,7 +55,7 @@ public class CreateRedisObjectController implements Initializable {
     @FXML
     TextField redisHashInputValue;
     @FXML
-    ComboBox<String> redisType;
+    ComboBox<String> redisInputType;
     @FXML
     Button createKey;
     @FXML
@@ -94,10 +94,10 @@ public class CreateRedisObjectController implements Initializable {
         redisHashField.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.29));
         redisHashValue.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.7));
 
-        redisType.getItems().addAll(STRING.name(), SET.name(), HASH.name());
-        redisType.setValue(STRING.name());
+        redisInputType.getItems().addAll(STRING.name(), SET.name(), HASH.name());
+        redisInputType.setValue(STRING.name());
 
-        redisType.valueProperty().addListener((obs, oldItem, newItem) -> {
+        redisInputType.valueProperty().addListener((obs, oldItem, newItem) -> {
             RedisType redisType = RedisType.valueOf(newItem);
             handleComboBoxItemChanged(redisType);
             showInputArea(redisType);
@@ -106,32 +106,24 @@ public class CreateRedisObjectController implements Initializable {
 
     @FXML
     public void create() {
-        String key = redisKey.getText();
+        String redisKey = redisInputKey.getText();
 
-        if (Strings.isBlank(key)) {
+        if (Strings.isBlank(redisKey)) {
             AlertUtil.warn("key cannot be empty!");
             return;
         }
 
-        RedisType type = RedisType.valueOf(redisType.getValue());
+        RedisType redisType = RedisType.valueOf(redisInputType.getValue());
+        RedisData redisData = redisData(redisType);
 
-        var data = new RedisData();
-        if (type == STRING) {
-            data.string = redisResult.getText();
-        } else if (type == SET) {
-            data.set = new HashSet<>(redisSetResultListProperty);
-        } else if (type == HASH) {
-            data.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        }
-
-        if (Strings.isBlank(data.string) && data.hash.size() == 0 && data.set.size() == 0) {
+        if (emptyData(redisData)) {
             AlertUtil.warn("data cannot be empty!");
             return;
         }
 
-        RedisObject redisObject = new RedisObjectBuilder().key(key)
-                                                          .type(type)
-                                                          .data(data)
+        RedisObject redisObject = new RedisObjectBuilder().key(redisKey)
+                                                          .type(redisType)
+                                                          .data(redisData)
                                                           .build();
         redis.add(redisObject);
         AlertUtil.info("added to redis successfully!");
@@ -139,17 +131,19 @@ public class CreateRedisObjectController implements Initializable {
 
     @FXML
     public void handleSetInputValue() {
-        String text = redisSetInputValue.getText();
-        if (Strings.isBlank(text)) {
+        String value = redisSetInputValue.getText();
+        if (Strings.isBlank(value)) {
             AlertUtil.warn("input value cannot be empty!");
             return;
         }
-        if (set.contains(text)) {
-            AlertUtil.warn(Strings.format("{} already inserted into list", text));
+
+        if (set.contains(value)) {
+            AlertUtil.warn(Strings.format("{} already inserted into list", value));
             return;
         }
-        redisSetResultListProperty.add(text);
-        set.add(text);
+
+        redisSetResultListProperty.add(value);
+        set.add(value);
     }
 
     @FXML
@@ -171,8 +165,8 @@ public class CreateRedisObjectController implements Initializable {
         hash.put(key, value);
     }
 
-    private void handleComboBoxItemChanged(RedisType type) {
-        switch (type) {
+    private void handleComboBoxItemChanged(RedisType redisType) {
+        switch (redisType) {
             case STRING:
                 showResult(true, false, false);
                 break;
@@ -185,6 +179,24 @@ public class CreateRedisObjectController implements Initializable {
             default:
                 break;
         }
+    }
+
+    private RedisData redisData(RedisType redisType) {
+        var redisData = new RedisData();
+
+        if (redisType == STRING) {
+            redisData.string = redisResult.getText();
+        } else if (redisType == SET) {
+            redisData.set = new HashSet<>(redisSetResultListProperty);
+        } else if (redisType == HASH) {
+            redisData.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+
+        return redisData;
+    }
+
+    private boolean emptyData(RedisData redisData) {
+        return Strings.isBlank(redisData.string) && redisData.hash.size() == 0 && redisData.set.size() == 0;
     }
 
     private void showResult(boolean string, boolean set, boolean hash) {
