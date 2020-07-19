@@ -3,7 +3,7 @@ A simple GUI client for Redis.
 
 Jedis client is used at this project for sending commands to Redis. 
 
-![](./screenshot/screenshot.png)
+![redis-client](./screenshot/Screenshot.png)
 
 # Development
 add this argument to VM options
