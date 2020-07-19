@@ -1,5 +1,7 @@
 package redis.handler;
 
+import redis.domain.RedisData;
+import redis.domain.RedisObject;
 import redis.service.Jedis;
 
 /**
@@ -14,8 +16,8 @@ public class RedisSetHandler implements RedisHandler {
     }
 
     @Override
-    public void update(String key, RedisData data) {
-        Jedis.getInstance().spop(key, Jedis.getInstance().scard(key));
-        Jedis.getInstance().sadd(key, data.set.toArray(String[]::new));
+    public void update(RedisObject redisObject) {
+        Jedis.getInstance().spop(redisObject.key, Jedis.getInstance().scard(redisObject.key));
+        Jedis.getInstance().sadd(redisObject.key, redisObject.data.set.toArray(String[]::new));
     }
 }

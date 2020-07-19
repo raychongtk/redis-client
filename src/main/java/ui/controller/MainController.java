@@ -18,9 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DefaultStringConverter;
-import redis.handler.RedisData;
+import redis.builder.RedisObjectBuilder;
+import redis.domain.RedisData;
+import redis.domain.RedisObject;
+import redis.domain.RedisType;
 import redis.service.Redis;
-import redis.service.RedisType;
 import util.Strings;
 
 import java.net.URL;
@@ -30,9 +32,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static redis.service.RedisType.HASH;
-import static redis.service.RedisType.SET;
-import static redis.service.RedisType.STRING;
+import static redis.domain.RedisType.HASH;
+import static redis.domain.RedisType.SET;
+import static redis.domain.RedisType.STRING;
 
 /**
  * @author raychong
@@ -151,7 +153,11 @@ public class MainController implements Initializable {
             data.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
 
-        redis.update(key, data);
+        RedisObject redisObject = new RedisObjectBuilder().key(key)
+                                                          .type(type)
+                                                          .data(data)
+                                                          .build();
+        redis.update(redisObject);
     }
 
     @FXML

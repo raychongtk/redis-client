@@ -1,4 +1,4 @@
-package redis.handler;
+package redis.domain;
 
 import java.util.Map;
 import java.util.Set;

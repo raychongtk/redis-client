@@ -2,7 +2,9 @@ package redis.service;
 
 import redis.RedisHandlers;
 import redis.clients.jedis.Jedis;
-import redis.handler.RedisData;
+import redis.domain.RedisData;
+import redis.domain.RedisObject;
+import redis.domain.RedisType;
 
 import java.util.Set;
 
@@ -49,7 +51,7 @@ public class Redis {
         return RedisHandlers.of(type(key)).get(key);
     }
 
-    public void update(String key, RedisData data) {
-        RedisHandlers.of(type(key)).update(key, data);
+    public void update(RedisObject redisObject) {
+        RedisHandlers.of(redisObject.type).update(redisObject);
     }
 }

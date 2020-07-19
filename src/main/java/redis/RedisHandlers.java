@@ -1,11 +1,11 @@
 package redis;
 
+import redis.domain.RedisType;
 import redis.exception.NotFoundException;
 import redis.handler.RedisHandler;
 import redis.handler.RedisHashHandler;
 import redis.handler.RedisSetHandler;
 import redis.handler.RedisStringHandler;
-import redis.service.RedisType;
 
 import java.util.EnumMap;
 import java.util.Map;

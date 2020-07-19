@@ -1,4 +1,4 @@
-package redis.service;
+package redis.domain;
 
 /**
  * @author raychong
