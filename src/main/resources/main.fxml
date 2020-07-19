@@ -34,6 +34,11 @@
                 <Insets right="5"/>
             </HBox.margin>
         </Button>
+        <Button fx:id="createKey" prefHeight="25.0" prefWidth="128.0" onAction="#createKey" text="Create">
+            <HBox.margin>
+                <Insets right="5"/>
+            </HBox.margin>
+        </Button>
         <VBox.margin>
             <Insets top="5" bottom="5"/>
         </VBox.margin>

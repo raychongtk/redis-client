@@ -19,4 +19,9 @@ public class RedisHashHandler implements RedisHandler {
     public void update(RedisObject redisObject) {
         Jedis.getInstance().hset(redisObject.key, redisObject.data.hash);
     }
+
+    @Override
+    public void add(RedisObject redisObject) {
+        Jedis.getInstance().hset(redisObject.key, redisObject.data.hash);
+    }
 }

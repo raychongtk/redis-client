@@ -5,7 +5,10 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -17,7 +20,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.builder.RedisObjectBuilder;
 import redis.domain.RedisData;
 import redis.domain.RedisObject;
@@ -25,6 +31,7 @@ import redis.domain.RedisType;
 import redis.service.Redis;
 import util.Strings;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,6 +47,7 @@ import static redis.domain.RedisType.STRING;
  * @author raychong
  */
 public class MainController implements Initializable {
+    private final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final ListProperty<String> keysListProperty = new SimpleListProperty<>();
     private final ListProperty<String> redisSetResultListProperty = new SimpleListProperty<>();
     private final Redis redis = Redis.getInstance();
@@ -170,6 +178,19 @@ public class MainController implements Initializable {
         if (alert.getResult() == ButtonType.YES) {
             redis.delete(key);
             refresh();
+        }
+    }
+
+    @FXML
+    public void createKey() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../../create-form.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 500, 500));
+            stage.setTitle("Create Key");
+            stage.show();
+        } catch (IOException e) {
+            logger.error("cannot open new window", e);
         }
     }
 

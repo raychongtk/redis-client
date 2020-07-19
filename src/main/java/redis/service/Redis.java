@@ -54,4 +54,8 @@ public class Redis {
     public void update(RedisObject redisObject) {
         RedisHandlers.of(redisObject.type).update(redisObject);
     }
+
+    public void add(RedisObject redisObject) {
+        RedisHandlers.of(redisObject.type).add(redisObject);
+    }
 }

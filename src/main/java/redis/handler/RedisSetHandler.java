@@ -20,4 +20,9 @@ public class RedisSetHandler implements RedisHandler {
         Jedis.getInstance().spop(redisObject.key, Jedis.getInstance().scard(redisObject.key));
         Jedis.getInstance().sadd(redisObject.key, redisObject.data.set.toArray(String[]::new));
     }
+
+    @Override
+    public void add(RedisObject redisObject) {
+        Jedis.getInstance().sadd(redisObject.key, redisObject.data.set.toArray(String[]::new));
+    }
 }

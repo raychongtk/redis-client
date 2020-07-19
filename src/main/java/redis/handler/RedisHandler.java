@@ -10,4 +10,6 @@ public interface RedisHandler {
     RedisData get(String key);
 
     void update(RedisObject redisObject);
+
+    void add(RedisObject redisObject);
 }

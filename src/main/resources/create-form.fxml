@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="ui.controller.CreateRedisObjectController"
+      prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="5" right="5" bottom="5" left="5"/>
+    </padding>
+    <GridPane hgap="10" vgap="10" prefWidth="600.0">
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="140" text="Key:"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="460" fx:id="redisKey"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="140" text="Type:"/>
+        <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="460" fx:id="redisType"/>
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </GridPane>
+    <AnchorPane prefHeight="400.0" prefWidth="600.0">
+        <TextArea AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" wrapText="true" fx:id="redisResult">
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </TextArea>
+        <ListView AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" visible="false" editable="true" fx:id="redisSetResult">
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </ListView>
+        <TableView AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" visible="false" editable="true" fx:id="redisHashResult">
+            <columns>
+                <TableColumn text="Field" fx:id="redisHashField"/>
+                <TableColumn text="Value" fx:id="redisHashValue"/>
+            </columns>
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </TableView>
+    </AnchorPane>
+    <AnchorPane prefWidth="600.0">
+        <GridPane hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" visible="false" fx:id="setGridPane">
+            <TextField GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="600" promptText="Value" fx:id="redisSetInputValue"/>
+            <Button GridPane.columnIndex="0" GridPane.rowIndex="1" text="Add" prefWidth="600" onAction="#handleSetInputValue" fx:id="addToSet"/>
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </GridPane>
+        <GridPane hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" visible="false" fx:id="hashGridPane">
+            <TextField GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="200" promptText="Field" fx:id="redisHashInputKey"/>
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="400" promptText="Value" fx:id="redisHashInputValue"/>
+            <Button GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" prefWidth="600" onAction="#handleHashInputValue" text="Add" fx:id="addToHash"/>
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </GridPane>
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </AnchorPane>
+    <Button text="Create" prefWidth="600" onAction="#create" fx:id="createKey">
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </Button>
+</VBox>

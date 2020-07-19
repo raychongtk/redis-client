@@ -19,4 +19,9 @@ public class RedisStringHandler implements RedisHandler {
     public void update(RedisObject redisObject) {
         Jedis.getInstance().set(redisObject.key, redisObject.data.string);
     }
+
+    @Override
+    public void add(RedisObject redisObject) {
+        Jedis.getInstance().set(redisObject.key, redisObject.data.string);
+    }
 }
