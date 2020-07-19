@@ -2,6 +2,7 @@ package ui.controller;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -24,15 +28,16 @@ import redis.domain.RedisData;
 import redis.domain.RedisObject;
 import redis.domain.RedisType;
 import redis.service.Redis;
-import ui.controller.view.RedisHashView;
 import ui.util.AlertUtil;
 import util.Strings;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static redis.domain.RedisType.HASH;
 import static redis.domain.RedisType.SET;
@@ -66,7 +71,11 @@ public class MainController implements Initializable {
     @FXML
     ListView<String> redisSetResult;
     @FXML
-    RedisHashView redisHashView;
+    TableView<Map.Entry<String, String>> redisHashResult;
+    @FXML
+    TableColumn<Map.Entry<String, String>, String> redisHashField;
+    @FXML
+    TableColumn<Map.Entry<String, String>, String> redisHashValue;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,6 +84,18 @@ public class MainController implements Initializable {
 
         redisSetResult.itemsProperty().bind(redisSetResultListProperty);
         redisSetResult.setCellFactory(TextFieldListCell.forListView());
+
+        //This is how we populate the cell
+        redisHashField.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
+        redisHashValue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
+
+        // set editable cell
+        redisHashValue.setCellFactory(TextFieldTableCell.forTableColumn());
+        redisHashValue.setOnEditCommit(table -> table.getTableView().getItems().get(table.getTablePosition().getRow()).setValue(table.getNewValue()));
+
+        // set column width
+        redisHashField.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.29));
+        redisHashValue.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.7));
 
         // on text changed
         searchBox.textProperty().addListener((obs, oldText, newText) -> {
@@ -104,7 +125,7 @@ public class MainController implements Initializable {
                 showResult(false, true, false);
                 break;
             case HASH:
-                redisHashView.setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
+                redisHashResult.setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
                 showResult(false, false, true);
                 break;
             default:
@@ -142,7 +163,7 @@ public class MainController implements Initializable {
         } else if (type == SET) {
             data.set = new HashSet<>(redisSetResultListProperty);
         } else if (type == HASH) {
-            data.hash = redisHashView.redisHash();
+            data.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
 
         RedisObject redisObject = new RedisObjectBuilder().key(key)
@@ -183,17 +204,17 @@ public class MainController implements Initializable {
         }
     }
 
-    private void showResult(boolean string, boolean set, boolean hash) {
-        redisResult.setVisible(string);
-        redisSetResult.setVisible(set);
-        redisHashView.visible(hash);
-        update.setVisible(string || set || hash);
-    }
-
     private void refresh() {
         Set<String> keys = redis.keys();
         keysListProperty.set(FXCollections.observableArrayList(keys));
         setResultCount(keys.size());
+    }
+
+    private void showResult(boolean string, boolean set, boolean hash) {
+        redisResult.setVisible(string);
+        redisSetResult.setVisible(set);
+        redisHashResult.setVisible(hash);
+        update.setVisible(string || set || hash);
     }
 
     private void setResultCount(int size) {
