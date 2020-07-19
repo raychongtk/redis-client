@@ -158,7 +158,7 @@ public class MainController implements Initializable {
     @FXML
     public void createKey() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../../create-redis-object.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/create-redis-object.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 500, 500));
             stage.setTitle("Create Key");

@@ -8,6 +8,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
  * @author kentsang
  */
 public class RedisHashView extends AnchorPane {
+    private final Logger logger = LoggerFactory.getLogger(RedisHashView.class);
+
     @FXML
     TableView<Map.Entry<String, String>> redisHashResult;
     @FXML
@@ -32,7 +36,7 @@ public class RedisHashView extends AnchorPane {
             fxmlLoader.setController(this);
             this.getChildren().add(fxmlLoader.load());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("cannot load view file", e);
         }
 
         //This is how we populate the cell
