@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
+    <TableView prefWidth="690" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" visible="false" editable="true" fx:id="redisHashResult">
+        <columns>
+            <TableColumn text="Field" editable="false" fx:id="redisHashField"/>
+            <TableColumn text="Value" fx:id="redisHashValue"/>
+        </columns>
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </TableView>
+</AnchorPane>

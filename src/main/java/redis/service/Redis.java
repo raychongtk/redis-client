@@ -55,6 +55,10 @@ public class Redis {
         RedisHandlers.of(redisObject.type).update(redisObject);
     }
 
+    public void update(String key, String field, String value) {
+        jedis.hset(key, field, value);
+    }
+
     public void add(RedisObject redisObject) {
         RedisHandlers.of(redisObject.type).add(redisObject);
     }

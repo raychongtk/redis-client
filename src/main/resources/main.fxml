@@ -13,10 +13,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import ui.controller.control.RedisHashControl?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
-      fx:controller="ui.controller.MainController"
-      prefHeight="400.0" prefWidth="600.0">
+      fx:controller="ui.controller.MainController">
     <padding><Insets top="5" right="5" bottom="5" left="5"/></padding>
     <HBox>
         <Button fx:id="refreshKeys" prefHeight="25.0" prefWidth="128.0" onAction="#handleRefreshButtonEvent" text="Refresh">
@@ -47,12 +47,12 @@
         <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="140" text="Key Pattern: "/>
         <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="460" fx:id="searchBox"/>
     </GridPane>
-    <ListView prefWidth="600.0" prefHeight="200.0" onMouseClicked="#handleListItemEvent" fx:id="redisKeys">
+    <ListView onMouseClicked="#handleListItemEvent" fx:id="redisKeys">
         <VBox.margin>
             <Insets top="5" bottom="5"/>
         </VBox.margin>
     </ListView>
-    <AnchorPane prefHeight="400.0" prefWidth="600.0">
+    <AnchorPane>
         <TextArea AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" wrapText="true" fx:id="redisResult">
             <VBox.margin>
                 <Insets top="5" bottom="5"/>
@@ -63,29 +63,19 @@
                 <Insets top="5" bottom="5"/>
             </VBox.margin>
         </ListView>
-        <TableView AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" visible="false" editable="true" fx:id="redisHashResult">
-            <columns>
-                <TableColumn text="Field" fx:id="redisHashField"/>
-                <TableColumn text="Value" fx:id="redisHashValue"/>
-            </columns>
-            <VBox.margin>
-                <Insets top="5" bottom="5"/>
-            </VBox.margin>
-        </TableView>
+        <RedisHashControl fx:id="redisHashControl"/>
     </AnchorPane>
-    <HBox prefWidth="600.0">
+    <HBox>
         <Label prefWidth="200.0" text="Number of Count: 0" fx:id="resultCount">
             <HBox.margin>
                 <Insets top="10" bottom="5"/>
             </HBox.margin>
         </Label>
         <FlowPane alignment="BOTTOM_RIGHT" prefWidth="400.0">
-            <children>
-                <Button prefHeight="25.0" text="Update" onAction="#updateValue" fx:id="update"/>
-            </children>
             <HBox.margin>
                 <Insets top="5" bottom="5"/>
             </HBox.margin>
+            <Button prefHeight="25.0" text="Update" onAction="#updateValue" fx:id="update"/>
         </FlowPane>
     </HBox>
 </VBox>

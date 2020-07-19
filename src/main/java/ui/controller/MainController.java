@@ -28,6 +28,7 @@ import redis.domain.RedisData;
 import redis.domain.RedisObject;
 import redis.domain.RedisType;
 import redis.service.Redis;
+import ui.controller.control.RedisHashControl;
 import ui.util.AlertUtil;
 import util.Strings;
 
@@ -71,11 +72,7 @@ public class MainController implements Initializable {
     @FXML
     ListView<String> redisSetResult;
     @FXML
-    TableView<Map.Entry<String, String>> redisHashResult;
-    @FXML
-    TableColumn<Map.Entry<String, String>, String> redisHashField;
-    @FXML
-    TableColumn<Map.Entry<String, String>, String> redisHashValue;
+    RedisHashControl redisHashControl;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,17 +81,6 @@ public class MainController implements Initializable {
 
         redisSetResult.itemsProperty().bind(redisSetResultListProperty);
         redisSetResult.setCellFactory(TextFieldListCell.forListView());
-
-        redisHashField.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
-        redisHashValue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
-
-        // set editable cell
-        redisHashValue.setCellFactory(cell -> new TextFieldTableCell<>(new DefaultStringConverter()));
-        redisHashValue.setOnEditCommit(table -> table.getTableView().getItems().get(table.getTablePosition().getRow()).setValue(table.getNewValue()));
-
-        // set column width
-        redisHashField.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.29));
-        redisHashValue.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.7));
 
         // on text changed
         searchBox.textProperty().addListener((obs, oldText, newText) -> {
@@ -122,7 +108,8 @@ public class MainController implements Initializable {
                 showResult(false, true, false);
                 break;
             case HASH:
-                redisHashResult.setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
+                redisHashControl.setKey(key);
+                redisHashControl.getRedisHashResult().setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
                 showResult(false, false, true);
                 break;
             default:
@@ -155,7 +142,7 @@ public class MainController implements Initializable {
         } else if (type == SET) {
             data.set = new HashSet<>(redisSetResultListProperty);
         } else if (type == HASH) {
-            data.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            data.hash = redisHashControl.getRedisHashResult().getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
 
         RedisObject redisObject = new RedisObjectBuilder().key(key)
@@ -192,7 +179,7 @@ public class MainController implements Initializable {
     private void showResult(boolean string, boolean set, boolean hash) {
         redisResult.setVisible(string);
         redisSetResult.setVisible(set);
-        redisHashResult.setVisible(hash);
+        redisHashControl.getRedisHashResult().setVisible(hash);
     }
 
     private void refresh() {
@@ -203,5 +190,9 @@ public class MainController implements Initializable {
 
     private void setResultCount(int size) {
         resultCount.setText("Number of Count: " + size);
+    }
+
+    public ListView<String> getRedisKeys() {
+        return redisKeys;
     }
 }
