@@ -6,7 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -122,9 +124,14 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleFlushAllButtonEvent() {
-        redis.flushAll();
-        keysListProperty.set(FXCollections.observableArrayList());
-        setResultCount(0);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to flush all the keys?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            redis.flushAll();
+            keysListProperty.set(FXCollections.observableArrayList());
+            setResultCount(0);
+        }
     }
 
     @FXML
