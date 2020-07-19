@@ -79,7 +79,7 @@ public class MainController implements Initializable {
         // on text changed
         searchBox.textProperty().addListener((obs, oldText, newText) -> {
             Set<String> keySet;
-            if (newText.isEmpty()) {
+            if (Strings.isBlank(newText)) {
                 keySet = redis.keys();
             } else {
                 keySet = redis.keys(newText);
@@ -87,6 +87,8 @@ public class MainController implements Initializable {
             keysListProperty.set(FXCollections.observableArrayList(keySet));
             setResultCount(keySet.size());
         });
+
+        showResult(false, false, false);
     }
 
     @FXML
@@ -127,9 +129,14 @@ public class MainController implements Initializable {
     @FXML
     public void updateValue() {
         String key = redisKeys.getSelectionModel().getSelectedItem();
-        var data = new RedisData();
+        if (Strings.isBlank(key)) {
+            AlertUtil.warn("key cannot be null");
+            return;
+        }
+
         RedisType type = redis.type(key);
 
+        var data = new RedisData();
         if (type == STRING) {
             data.string = redisResult.getText();
         } else if (type == SET) {
@@ -149,12 +156,16 @@ public class MainController implements Initializable {
     @FXML
     public void deleteKey() {
         String key = redisKeys.getSelectionModel().getSelectedItem();
+        if (Strings.isBlank(key)) {
+            AlertUtil.warn("please select a key first!");
+            return;
+        }
 
         if (AlertUtil.confirm(Strings.format("Do you want to delete {}?", key), ButtonType.YES)) {
             redis.delete(key);
             refresh();
+            showResult(false, false, false);
         }
-        showResult(false, false, false);
     }
 
     @FXML
@@ -176,6 +187,7 @@ public class MainController implements Initializable {
         redisResult.setVisible(string);
         redisSetResult.setVisible(set);
         redisHashView.visible(hash);
+        update.setVisible(string || set || hash);
     }
 
     private void refresh() {

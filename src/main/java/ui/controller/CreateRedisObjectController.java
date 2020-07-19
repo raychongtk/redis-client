@@ -196,23 +196,21 @@ public class CreateRedisObjectController implements Initializable {
     private void showInputArea(RedisType type) {
         switch (type) {
             case SET:
-                setGridPane.setManaged(true);
-                setGridPane.setVisible(true);
-                hashGridPane.setVisible(false);
-                hashGridPane.setManaged(false);
+                showKeyValueInput(true, false);
                 break;
             case HASH:
-                setGridPane.setManaged(false);
-                setGridPane.setVisible(false);
-                hashGridPane.setVisible(true);
-                hashGridPane.setManaged(true);
+                showKeyValueInput(false, true);
                 break;
             case STRING:
             default:
-                setGridPane.setManaged(false);
-                setGridPane.setVisible(false);
-                hashGridPane.setVisible(false);
-                hashGridPane.setManaged(false);
+                showKeyValueInput(false, false);
         }
+    }
+
+    private void showKeyValueInput(boolean set, boolean hash) {
+        setGridPane.setManaged(set);
+        setGridPane.setVisible(set);
+        hashGridPane.setVisible(hash);
+        hashGridPane.setManaged(hash);
     }
 }
