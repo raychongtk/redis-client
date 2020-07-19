@@ -1,5 +1,6 @@
 package redis;
 
+import redis.exception.NotFoundException;
 import redis.handler.RedisHandler;
 import redis.handler.RedisHashHandler;
 import redis.handler.RedisSetHandler;
@@ -16,8 +17,9 @@ public class RedisHandlers {
     private static final Map<RedisType, RedisHandler> PROPERTIES = properties();
 
     public static RedisHandler of(RedisType dataType) {
-        if (RedisHandlerProperties.of(dataType).supported()) return PROPERTIES.get(dataType);
-        throw new UnsupportedOperationException();
+        RedisHandler redisHandler = PROPERTIES.get(dataType);
+        if (redisHandler == null) throw new NotFoundException("redis handler not found, type=" + dataType);
+        return redisHandler;
     }
 
     private static Map<RedisType, RedisHandler> properties() {
