@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DefaultStringConverter;
@@ -44,6 +45,8 @@ public class MainController implements Initializable {
     Button flushAll;
     @FXML
     Button update;
+    @FXML
+    TextField searchBox;
     @FXML
     Label resultCount;
     @FXML
@@ -80,6 +83,15 @@ public class MainController implements Initializable {
         // set column width
         redisHashField.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.29));
         redisHashValue.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.7));
+
+        // on text changed
+        searchBox.textProperty().addListener((obs, oldText, newText) -> {
+            if (newText.isEmpty()) {
+                keysListProperty.set(FXCollections.observableArrayList(redis.keys()));
+            } else {
+                keysListProperty.set(FXCollections.observableArrayList(redis.keys(newText)));
+            }
+        });
     }
 
     @FXML

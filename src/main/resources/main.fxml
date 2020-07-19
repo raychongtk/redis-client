@@ -7,8 +7,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
@@ -30,6 +32,10 @@
             <Insets top="5" bottom="5"/>
         </VBox.margin>
     </HBox>
+    <GridPane hgap="10" vgap="10" prefWidth="600.0">
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="140" text="Key Pattern: "/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="460" fx:id="searchBox"/>
+    </GridPane>
     <ListView prefWidth="600.0" prefHeight="200.0" onMouseClicked="#handleListItemEvent" fx:id="redisKeys">
         <VBox.margin>
             <Insets top="5" bottom="5"/>
@@ -56,13 +62,13 @@
             </VBox.margin>
         </TableView>
     </AnchorPane>
-    <HBox>
-        <Label prefWidth="150.0" text="Number of Count: 0" fx:id="resultCount">
+    <HBox prefWidth="600.0">
+        <Label prefWidth="200.0" text="Number of Count: 0" fx:id="resultCount">
             <HBox.margin>
                 <Insets top="10" bottom="5"/>
             </HBox.margin>
         </Label>
-        <FlowPane alignment="BOTTOM_RIGHT">
+        <FlowPane alignment="BOTTOM_RIGHT" prefWidth="400.0">
             <children>
                 <Button prefHeight="25.0" text="Update" onAction="#updateValue" fx:id="update"/>
             </children>
