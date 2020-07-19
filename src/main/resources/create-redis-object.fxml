@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
@@ -19,11 +20,15 @@
     <padding>
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
-    <GridPane hgap="10" vgap="10" prefWidth="600.0">
-        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="140" text="Key:"/>
-        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="460" fx:id="redisKey"/>
-        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="140" text="Type:"/>
-        <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="460" fx:id="redisType"/>
+    <GridPane hgap="5" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="40" text="Key:"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="redisKey"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="40" text="Type:"/>
+        <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="redisType"/>
         <VBox.margin>
             <Insets top="5" bottom="5"/>
         </VBox.margin>
@@ -49,29 +54,32 @@
             </VBox.margin>
         </TableView>
     </AnchorPane>
-    <AnchorPane prefWidth="600.0">
-        <GridPane hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" managed="false" visible="false" fx:id="setGridPane">
-            <TextField GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="600" promptText="Value" fx:id="redisSetInputValue"/>
-            <Button GridPane.columnIndex="0" GridPane.rowIndex="1" text="Add" prefWidth="600" onAction="#handleSetInputValue" fx:id="addToSet"/>
-            <VBox.margin>
-                <Insets top="5" bottom="5"/>
-            </VBox.margin>
+    <AnchorPane>
+        <GridPane hgap="10" vgap="5" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" managed="false" visible="false" fx:id="setGridPane">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <TextField GridPane.columnIndex="0" GridPane.rowIndex="0" promptText="Value" fx:id="redisSetInputValue"/>
+            <Button GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="RIGHT" text="Add" onAction="#handleSetInputValue" fx:id="addToSet"/>
         </GridPane>
-        <GridPane hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" managed="false" visible="false" fx:id="hashGridPane">
+        <GridPane hgap="10" vgap="5" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" managed="false" visible="false" fx:id="hashGridPane">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
             <TextField GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="200" promptText="Field" fx:id="redisHashInputKey"/>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="400" promptText="Value" fx:id="redisHashInputValue"/>
-            <Button GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" prefWidth="600" onAction="#handleHashInputValue" text="Add" fx:id="addToHash"/>
-            <VBox.margin>
-                <Insets top="5" bottom="5"/>
-            </VBox.margin>
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="Value" fx:id="redisHashInputValue"/>
+            <Button GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="RIGHT" onAction="#handleHashInputValue" text="Add" fx:id="addToHash"/>
         </GridPane>
         <VBox.margin>
             <Insets top="5" bottom="5"/>
         </VBox.margin>
     </AnchorPane>
-    <Button text="Create" prefWidth="600" onAction="#create" fx:id="createKey">
-        <VBox.margin>
-            <Insets top="5" bottom="5"/>
-        </VBox.margin>
-    </Button>
+    <AnchorPane>
+        <Button AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" text="Create" onAction="#create" fx:id="createKey">
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </Button>
+    </AnchorPane>
 </VBox>

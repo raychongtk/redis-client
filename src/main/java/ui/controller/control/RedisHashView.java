@@ -1,29 +1,22 @@
 package ui.controller.control;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
-import redis.builder.RedisObjectBuilder;
-import redis.domain.RedisData;
-import redis.domain.RedisObject;
-import redis.domain.RedisType;
-import redis.service.Redis;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * @author kentsang
  */
-public class RedisHashControl extends AnchorPane {
+public class RedisHashView extends AnchorPane {
     @FXML
     TableView<Map.Entry<String, String>> redisHashResult;
     @FXML
@@ -31,13 +24,11 @@ public class RedisHashControl extends AnchorPane {
     @FXML
     TableColumn<Map.Entry<String, String>, String> redisHashValue;
 
-    private String key;
-
-    public RedisHashControl() {
+    public RedisHashView() {
         super();
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/tableView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/redis-hash-view.fxml"));
             fxmlLoader.setController(this);
             this.getChildren().add(fxmlLoader.load());
         } catch (IOException e) {
@@ -50,24 +41,22 @@ public class RedisHashControl extends AnchorPane {
 
         // set editable cell
         redisHashValue.setCellFactory(TextFieldTableCell.forTableColumn());
-        redisHashValue.setOnEditCommit(this::editOnCommitEvent);
+        redisHashValue.setOnEditCommit(table -> table.getTableView().getItems().get(table.getTablePosition().getRow()).setValue(table.getNewValue()));
 
         // set column width
         redisHashField.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.29));
         redisHashValue.prefWidthProperty().bind(redisHashResult.widthProperty().multiply(0.7));
     }
 
-    @FXML
-    public void editOnCommitEvent(TableColumn.CellEditEvent<Map.Entry<String, String>, String> editedEvent) {
-        Redis.getInstance().update(key, editedEvent.getRowValue().getKey(), editedEvent.getNewValue());
-        redisHashResult.setItems(FXCollections.observableArrayList(Redis.getInstance().get(key).hash.entrySet()));
+    public void visible(boolean value) {
+        redisHashResult.setVisible(value);
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setItems(ObservableList<Map.Entry<String, String>> items) {
+        redisHashResult.setItems(items);
     }
 
-    public TableView<Map.Entry<String, String>> getRedisHashResult() {
-        return redisHashResult;
+    public Map<String, String> redisHash() {
+        return redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

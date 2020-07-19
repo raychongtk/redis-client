@@ -2,7 +2,6 @@ package ui.controller;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,14 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.DefaultStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.builder.RedisObjectBuilder;
@@ -28,17 +23,15 @@ import redis.domain.RedisData;
 import redis.domain.RedisObject;
 import redis.domain.RedisType;
 import redis.service.Redis;
-import ui.controller.control.RedisHashControl;
+import ui.controller.control.RedisHashView;
 import ui.util.AlertUtil;
 import util.Strings;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static redis.domain.RedisType.HASH;
 import static redis.domain.RedisType.SET;
@@ -72,7 +65,7 @@ public class MainController implements Initializable {
     @FXML
     ListView<String> redisSetResult;
     @FXML
-    RedisHashControl redisHashControl;
+    RedisHashView redisHashView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,8 +101,7 @@ public class MainController implements Initializable {
                 showResult(false, true, false);
                 break;
             case HASH:
-                redisHashControl.setKey(key);
-                redisHashControl.getRedisHashResult().setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
+                redisHashView.setItems(FXCollections.observableArrayList(redis.get(key).hash.entrySet()));
                 showResult(false, false, true);
                 break;
             default:
@@ -142,7 +134,7 @@ public class MainController implements Initializable {
         } else if (type == SET) {
             data.set = new HashSet<>(redisSetResultListProperty);
         } else if (type == HASH) {
-            data.hash = redisHashControl.getRedisHashResult().getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            data.hash = redisHashView.redisHash();
         }
 
         RedisObject redisObject = new RedisObjectBuilder().key(key)
@@ -179,7 +171,7 @@ public class MainController implements Initializable {
     private void showResult(boolean string, boolean set, boolean hash) {
         redisResult.setVisible(string);
         redisSetResult.setVisible(set);
-        redisHashControl.getRedisHashResult().setVisible(hash);
+        redisHashView.visible(hash);
     }
 
     private void refresh() {
@@ -190,9 +182,5 @@ public class MainController implements Initializable {
 
     private void setResultCount(int size) {
         resultCount.setText("Number of Count: " + size);
-    }
-
-    public ListView<String> getRedisKeys() {
-        return redisKeys;
     }
 }
