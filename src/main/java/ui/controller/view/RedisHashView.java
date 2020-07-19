@@ -1,4 +1,4 @@
-package ui.controller.control;
+package ui.controller.view;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;

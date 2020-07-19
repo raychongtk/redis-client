@@ -23,7 +23,7 @@ import redis.domain.RedisData;
 import redis.domain.RedisObject;
 import redis.domain.RedisType;
 import redis.service.Redis;
-import ui.controller.control.RedisHashView;
+import ui.controller.view.RedisHashView;
 import ui.util.AlertUtil;
 import util.Strings;
 
