@@ -37,6 +37,10 @@ public class Redis {
         return RedisType.valueOf(jedis.type(key).toUpperCase());
     }
 
+    public void delete(String key) {
+        jedis.del(key);
+    }
+
     public void flushAll() {
         jedis.flushAll();
     }

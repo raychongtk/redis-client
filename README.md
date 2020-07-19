@@ -25,4 +25,5 @@ for more details please visit <a href="https://redis.io/commands" target="_blank
 # Requirement
 1. JDK 14
 2. JAVAFX 14
+3. Redis
 
