@@ -1,4 +1,4 @@
-# redis-client
+# Redis-Client
 A simple GUI client for Redis.
 
 Jedis client is used at this project for sending commands to Redis. 
