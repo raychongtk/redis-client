@@ -108,6 +108,12 @@ public class CreateRedisObjectController implements Initializable {
     @FXML
     public void create() {
         String key = redisKey.getText();
+
+        if (Strings.isBlank(key)) {
+            new Alert(Alert.AlertType.WARNING, "key cannot be empty!", ButtonType.OK).showAndWait();
+            return;
+        }
+
         RedisType type = RedisType.valueOf(redisType.getValue());
 
         var data = new RedisData();
@@ -117,6 +123,11 @@ public class CreateRedisObjectController implements Initializable {
             data.set = new HashSet<>(redisSetResultListProperty);
         } else if (type == HASH) {
             data.hash = redisHashResult.getItems().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+
+        if (Strings.isBlank(data.string) && data.hash.size() == 0 && data.set.size() == 0) {
+            new Alert(Alert.AlertType.WARNING, "data cannot be empty!", ButtonType.OK).showAndWait();
+            return;
         }
 
         RedisObject redisObject = new RedisObjectBuilder().key(key)
@@ -130,7 +141,7 @@ public class CreateRedisObjectController implements Initializable {
     @FXML
     public void handleSetInputValue() {
         String text = redisSetInputValue.getText();
-        if (text.isEmpty()) {
+        if (Strings.isBlank(text)) {
             new Alert(Alert.AlertType.WARNING, "input value cannot be empty!", ButtonType.OK).showAndWait();
             return;
         }
@@ -147,10 +158,11 @@ public class CreateRedisObjectController implements Initializable {
     public void handleHashInputValue() {
         String key = redisHashInputKey.getText();
         String value = redisHashInputValue.getText();
-        if (key.isEmpty() || value.isEmpty()) {
+        if (Strings.isBlank(key) || Strings.isBlank(value)) {
             new Alert(Alert.AlertType.WARNING, "input key/value cannot be empty!", ButtonType.OK).showAndWait();
             return;
         }
+
         if (hash.containsKey(key)) {
             String alertContent = Strings.format("{} already inserted into table", key);
             new Alert(Alert.AlertType.WARNING, alertContent, ButtonType.OK).showAndWait();
