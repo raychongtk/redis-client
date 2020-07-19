@@ -88,11 +88,14 @@ public class MainController implements Initializable {
 
         // on text changed
         searchBox.textProperty().addListener((obs, oldText, newText) -> {
+            Set<String> keySet;
             if (newText.isEmpty()) {
-                keysListProperty.set(FXCollections.observableArrayList(redis.keys()));
+                keySet = redis.keys();
             } else {
-                keysListProperty.set(FXCollections.observableArrayList(redis.keys(newText)));
+                keySet = redis.keys(newText);
             }
+            keysListProperty.set(FXCollections.observableArrayList(keySet));
+            setResultCount(keySet.size());
         });
     }
 
