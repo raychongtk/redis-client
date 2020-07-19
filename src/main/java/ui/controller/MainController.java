@@ -21,6 +21,7 @@ import javafx.util.converter.DefaultStringConverter;
 import redis.handler.RedisData;
 import redis.service.Redis;
 import redis.service.RedisType;
+import util.Strings;
 
 import java.net.URL;
 import java.util.HashSet;
@@ -48,6 +49,8 @@ public class MainController implements Initializable {
     @FXML
     Button update;
     @FXML
+    Button deleteKey;
+    @FXML
     TextField searchBox;
     @FXML
     Label resultCount;
@@ -66,11 +69,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Set<String> keys = redis.keys();
         redisKeys.itemsProperty().bind(keysListProperty);
-        keysListProperty.set(FXCollections.observableArrayList(keys));
-
-        setResultCount(keys.size());
+        refresh();
 
         redisSetResult.itemsProperty().bind(redisSetResultListProperty);
         redisSetResult.setCellFactory(TextFieldListCell.forListView());
@@ -122,7 +122,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleRefreshButtonEvent() {
-        keysListProperty.set(FXCollections.observableArrayList(redis.keys()));
+        refresh();
     }
 
     @FXML
@@ -154,13 +154,32 @@ public class MainController implements Initializable {
         redis.update(key, data);
     }
 
-    private void setResultCount(int size) {
-        resultCount.setText("Number of Count: " + size);
+    @FXML
+    public void deleteKey() {
+        String key = redisKeys.getSelectionModel().getSelectedItem();
+        String alertContent = Strings.format("Do you want to delete {}?", key);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, alertContent, ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            redis.delete(key);
+            refresh();
+        }
     }
 
     private void showResult(boolean string, boolean set, boolean hash) {
         redisResult.setVisible(string);
         redisSetResult.setVisible(set);
         redisHashResult.setVisible(hash);
+    }
+
+    private void refresh() {
+        Set<String> keys = redis.keys();
+        keysListProperty.set(FXCollections.observableArrayList(keys));
+        setResultCount(keys.size());
+    }
+
+    private void setResultCount(int size) {
+        resultCount.setText("Number of Count: " + size);
     }
 }
