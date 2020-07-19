@@ -153,6 +153,7 @@ public class MainController implements Initializable {
             redis.delete(key);
             refresh();
         }
+        showResult(false, false, false);
     }
 
     @FXML
@@ -162,6 +163,7 @@ public class MainController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 500, 500));
             stage.setTitle("Create Key");
+            stage.setOnCloseRequest(event -> refresh());
             stage.show();
         } catch (IOException e) {
             logger.error("cannot open new window", e);
