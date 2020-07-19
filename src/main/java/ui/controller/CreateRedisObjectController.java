@@ -6,9 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -24,6 +22,7 @@ import redis.domain.RedisData;
 import redis.domain.RedisObject;
 import redis.domain.RedisType;
 import redis.service.Redis;
+import ui.util.AlertUtil;
 import util.Strings;
 
 import java.net.URL;
@@ -110,7 +109,7 @@ public class CreateRedisObjectController implements Initializable {
         String key = redisKey.getText();
 
         if (Strings.isBlank(key)) {
-            new Alert(Alert.AlertType.WARNING, "key cannot be empty!", ButtonType.OK).showAndWait();
+            AlertUtil.warn("key cannot be empty!");
             return;
         }
 
@@ -126,7 +125,7 @@ public class CreateRedisObjectController implements Initializable {
         }
 
         if (Strings.isBlank(data.string) && data.hash.size() == 0 && data.set.size() == 0) {
-            new Alert(Alert.AlertType.WARNING, "data cannot be empty!", ButtonType.OK).showAndWait();
+            AlertUtil.warn("data cannot be empty!");
             return;
         }
 
@@ -135,19 +134,18 @@ public class CreateRedisObjectController implements Initializable {
                                                           .data(data)
                                                           .build();
         redis.add(redisObject);
-        new Alert(Alert.AlertType.INFORMATION, "added to redis successfully!", ButtonType.OK).showAndWait();
+        AlertUtil.info("added to redis successfully!");
     }
 
     @FXML
     public void handleSetInputValue() {
         String text = redisSetInputValue.getText();
         if (Strings.isBlank(text)) {
-            new Alert(Alert.AlertType.WARNING, "input value cannot be empty!", ButtonType.OK).showAndWait();
+            AlertUtil.warn("input value cannot be empty!");
             return;
         }
         if (set.contains(text)) {
-            String alertContent = Strings.format("{} already inserted into list", text);
-            new Alert(Alert.AlertType.WARNING, alertContent, ButtonType.OK).showAndWait();
+            AlertUtil.warn(Strings.format("{} already inserted into list", text));
             return;
         }
         redisSetResultListProperty.add(text);
@@ -159,13 +157,12 @@ public class CreateRedisObjectController implements Initializable {
         String key = redisHashInputKey.getText();
         String value = redisHashInputValue.getText();
         if (Strings.isBlank(key) || Strings.isBlank(value)) {
-            new Alert(Alert.AlertType.WARNING, "input key/value cannot be empty!", ButtonType.OK).showAndWait();
+            AlertUtil.warn("input key/value cannot be empty!");
             return;
         }
 
         if (hash.containsKey(key)) {
-            String alertContent = Strings.format("{} already inserted into table", key);
-            new Alert(Alert.AlertType.WARNING, alertContent, ButtonType.OK).showAndWait();
+            AlertUtil.warn(Strings.format("{} already inserted into table", key));
             return;
         }
 

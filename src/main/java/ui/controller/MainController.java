@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -29,6 +28,7 @@ import redis.domain.RedisData;
 import redis.domain.RedisObject;
 import redis.domain.RedisType;
 import redis.service.Redis;
+import ui.util.AlertUtil;
 import util.Strings;
 
 import java.io.IOException;
@@ -137,10 +137,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleFlushAllButtonEvent() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to flush all the keys?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.YES) {
+        if (AlertUtil.confirm("Do you really want to flush all the keys?", ButtonType.YES)) {
             redis.flushAll();
             keysListProperty.set(FXCollections.observableArrayList());
             setResultCount(0);
@@ -166,16 +163,14 @@ public class MainController implements Initializable {
                                                           .data(data)
                                                           .build();
         redis.update(redisObject);
+        AlertUtil.info("update successfully!");
     }
 
     @FXML
     public void deleteKey() {
         String key = redisKeys.getSelectionModel().getSelectedItem();
-        String alertContent = Strings.format("Do you want to delete {}?", key);
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, alertContent, ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.YES) {
+        if (AlertUtil.confirm(Strings.format("Do you want to delete {}?", key), ButtonType.YES)) {
             redis.delete(key);
             refresh();
         }
@@ -184,7 +179,7 @@ public class MainController implements Initializable {
     @FXML
     public void createKey() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../../create-form.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../../create-redis-object.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 500, 500));
             stage.setTitle("Create Key");
