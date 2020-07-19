@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,6 +162,7 @@ public class MainController implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/create-redis-object.fxml"));
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL); // Block events sending to other application
             stage.setScene(new Scene(root, 500, 500));
             stage.setTitle("Create Key");
             stage.setOnCloseRequest(event -> refresh());
