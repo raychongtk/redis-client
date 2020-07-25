@@ -1,4 +1,4 @@
-# Redis-Client
+# Redis Client
 A simple GUI client for Redis.
 
 Jedis client is used at this project for sending commands to Redis. 
@@ -29,4 +29,13 @@ for more details please visit <a href="https://redis.io/commands" target="_blank
 1. JDK 14
 2. JAVAFX 14
 3. Redis
+
+# Support
+1. Read Redis Set/Hash/String
+2. Create Redis Set/Hash/String
+3. Update Redis Set/Hash/String
+4. Customize Redis Connection URL
+5. Delete Key
+6. Search Key By Pattern
+7. Flush All Keys
 
