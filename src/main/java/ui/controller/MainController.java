@@ -50,7 +50,7 @@ public class MainController implements Initializable {
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final ListProperty<String> keysListProperty = new SimpleListProperty<>();
     private final ListProperty<String> redisSetResultListProperty = new SimpleListProperty<>();
-    private final Redis redis = Redis.getInstance();
+    private final Redis redis = Redis.create();
 
     @FXML
     Button refreshKeys;
@@ -99,6 +99,8 @@ public class MainController implements Initializable {
 
         // on text changed
         searchBox.textProperty().addListener((obs, oldText, newText) -> {
+            if (!redis.isConnected()) return;
+
             Set<String> keys;
             if (Strings.isBlank(newText)) {
                 keys = redis.keys();
@@ -110,10 +112,14 @@ public class MainController implements Initializable {
         });
 
         showResult(false, false, false);
+
+        if (!redis.isConnected()) connectRedis();
     }
 
     @FXML
     public void handleListItemEvent() {
+        if (!redis.isConnected()) return;
+
         String redisKey = redisKeys.getSelectionModel().getSelectedItem();
         switch (redis.type(redisKey)) {
             case STRING:
@@ -140,6 +146,8 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleFlushAllButtonEvent() {
+        if (!redis.isConnected()) return;
+
         if (AlertUtil.confirm("Do you really want to flush all the keys?", ButtonType.YES)) {
             redis.flushAll();
             keysListProperty.set(FXCollections.observableArrayList());
@@ -149,6 +157,8 @@ public class MainController implements Initializable {
 
     @FXML
     public void updateValue() {
+        if (!redis.isConnected()) return;
+
         String redisKey = redisKeys.getSelectionModel().getSelectedItem();
         if (Strings.isBlank(redisKey)) {
             AlertUtil.warn("key cannot be null");
@@ -167,6 +177,8 @@ public class MainController implements Initializable {
 
     @FXML
     public void deleteKey() {
+        if (!redis.isConnected()) return;
+
         String key = redisKeys.getSelectionModel().getSelectedItem();
         if (Strings.isBlank(key)) {
             AlertUtil.warn("please select a key first!");
@@ -182,6 +194,8 @@ public class MainController implements Initializable {
 
     @FXML
     public void createKey() {
+        if (!redis.isConnected()) return;
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/create-redis-object.fxml"));
             Stage stage = new Stage();
@@ -195,7 +209,24 @@ public class MainController implements Initializable {
         }
     }
 
+    private void connectRedis() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/connect-redis.fxml"));
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setAlwaysOnTop(true);
+            stage.setOnCloseRequest(event -> refresh());
+            stage.setScene(new Scene(root, 500, 110));
+            stage.setTitle("Connect Redis");
+            stage.show();
+        } catch (IOException e) {
+            logger.error("cannot open new window", e);
+        }
+    }
+
     private void refresh() {
+        if (!redis.isConnected()) return;
+
         Set<String> keys = redis.keys();
         keysListProperty.set(FXCollections.observableArrayList(keys));
         setResultCount(keys.size());

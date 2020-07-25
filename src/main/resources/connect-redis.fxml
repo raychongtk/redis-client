@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="ui.controller.ConnectRedisController">
+    <padding>
+        <Insets top="5" right="5" bottom="5" left="5"/>
+    </padding>
+    <GridPane hgap="5" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="40" text="Host:"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="redisHost"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="40" text="Port:"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="redisPort"/>
+        <VBox.margin>
+            <Insets top="5" bottom="5"/>
+        </VBox.margin>
+    </GridPane>
+    <AnchorPane>
+        <Button AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" text="Connect" onAction="#handleConnectRedis" fx:id="connectRedis">
+            <VBox.margin>
+                <Insets top="5" bottom="5"/>
+            </VBox.margin>
+        </Button>
+    </AnchorPane>
+</VBox>

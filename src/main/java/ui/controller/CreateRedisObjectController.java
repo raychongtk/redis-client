@@ -44,7 +44,7 @@ public class CreateRedisObjectController implements Initializable {
     private final ListProperty<String> redisSetResultListProperty = new SimpleListProperty<>();
     private final Map<String, String> hash = new HashMap<>();
     private final Set<String> set = new HashSet<>();
-    private final Redis redis = Redis.getInstance();
+    private final Redis redis = Redis.create();
 
     @FXML
     TextField redisInputKey;

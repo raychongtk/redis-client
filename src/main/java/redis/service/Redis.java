@@ -12,19 +12,18 @@ import java.util.Set;
  * @author raychong
  */
 public class Redis {
-    private static Redis instance;
+    private static Jedis jedis;
 
-    public static Redis getInstance() {
-        if (instance == null) {
-            instance = new Redis();
-        }
-        return instance;
+    public static Redis create() {
+        return new Redis();
     }
 
-    private final Jedis jedis;
-
     private Redis() {
-        jedis = redis.service.Jedis.getInstance();
+        jedis = CreateJedis.getInstance();
+    }
+
+    public boolean isConnected() {
+        return jedis != null && jedis.isConnected();
     }
 
     public Set<String> keys(String pattern) {
