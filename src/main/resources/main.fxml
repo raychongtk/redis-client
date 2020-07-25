@@ -8,6 +8,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -21,28 +24,83 @@
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
     <HBox>
-        <Button fx:id="refreshKeys" prefHeight="25.0" prefWidth="128.0" onAction="#handleRefreshButtonEvent" text="Refresh">
+        <Button fx:id="refreshKeys" onAction="#handleRefreshButtonEvent">
+            <graphic>
+                <ImageView>
+                    <image>
+                        <Image url="@images/refresh.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Refresh"/>
+            </tooltip>
             <HBox.margin>
                 <Insets right="5"/>
             </HBox.margin>
         </Button>
-        <Button fx:id="flushAll" prefHeight="25.0" prefWidth="128.0" onAction="#handleFlushAllButtonEvent" text="Flush All">
+        <Button fx:id="createKey" onAction="#createKey">
+            <graphic>
+                <ImageView>
+                    <image>
+                        <Image url="@images/create.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Create"/>
+            </tooltip>
             <HBox.margin>
                 <Insets right="5"/>
             </HBox.margin>
         </Button>
-        <Button fx:id="deleteKey" prefHeight="25.0" prefWidth="128.0" onAction="#deleteKey" text="Delete">
+        <Button fx:id="deleteKey" onAction="#deleteKey">
+            <graphic>
+                <ImageView>
+                    <image>
+                        <Image url="@images/delete.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Delete"/>
+            </tooltip>
             <HBox.margin>
                 <Insets right="5"/>
             </HBox.margin>
         </Button>
-        <Button fx:id="createKey" prefHeight="25.0" prefWidth="128.0" onAction="#createKey" text="Create">
+        <Button fx:id="flushAll" onAction="#handleFlushAllButtonEvent">
+            <graphic>
+                <ImageView>
+                    <image>
+                        <Image url="@images/flush-all.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Flush All"/>
+            </tooltip>
+            <HBox.margin>
+                <Insets right="5"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="connectRedis" onAction="#connectRedis">
+            <graphic>
+                <ImageView>
+                    <image>
+                        <Image url="@images/connect.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Connect"/>
+            </tooltip>
             <HBox.margin>
                 <Insets right="5"/>
             </HBox.margin>
         </Button>
         <VBox.margin>
-            <Insets top="5" bottom="5"/>
+            <Insets top="5" bottom="10"/>
         </VBox.margin>
     </HBox>
     <AnchorPane>

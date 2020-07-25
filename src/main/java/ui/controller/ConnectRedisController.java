@@ -11,6 +11,7 @@ import ui.util.AlertUtil;
 import util.Preference;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -26,7 +27,11 @@ public class ConnectRedisController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Optional<String> host = Preference.get("redis.host");
+        Optional<String> port = Preference.get("redis.port");
 
+        redisHost.setText(host.orElse(""));
+        redisPort.setText(port.orElse(""));
     }
 
     @FXML

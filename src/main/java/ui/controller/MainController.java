@@ -61,6 +61,8 @@ public class MainController implements Initializable {
     @FXML
     Button deleteKey;
     @FXML
+    Button connectRedis;
+    @FXML
     TextField searchBox;
     @FXML
     Label resultCount;
@@ -209,14 +211,15 @@ public class MainController implements Initializable {
         }
     }
 
-    private void connectRedis() {
+    @FXML
+    public void connectRedis() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/connect-redis.fxml"));
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setAlwaysOnTop(true);
             stage.setOnCloseRequest(event -> refresh());
-            stage.setScene(new Scene(root, 500, 110));
+            stage.setScene(new Scene(root, 500, 115));
             stage.setTitle("Connect Redis");
             stage.show();
         } catch (IOException e) {
