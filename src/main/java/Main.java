@@ -1,24 +1,10 @@
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.io.IOException;
+import io.micronaut.runtime.Micronaut;
 
 /**
  * @author raychong
  */
-public class Main extends Application {
+public class Main {
     public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setScene(new Scene(root, 700 , 700));
-        primaryStage.setTitle("Redis Client");
-        primaryStage.show();
+        Micronaut.run(Main.class, args);
     }
 }
