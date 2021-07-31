@@ -1,7 +1,8 @@
 # Redis Client
-A simple GUI client for Redis.
+web-based client for redis
 
-Jedis client is used at this project for sending commands to Redis. 
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/raychongtk/redis-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/raychongtk/redis-client/context:java)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/raychongtk/redis-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/raychongtk/redis-client/alerts/)
 
 # Development
 To start a redis instance:
@@ -18,18 +19,3 @@ Verify redis keys and values:
 
 use redis commands like`keys *`, `get`, `hget` and so on.
 for more details please visit <a href="https://redis.io/commands" target="_blank">redis official website</a>
-
-# Requirement
-1. JDK 14
-2. Flutter
-3. Redis
-
-# Support
-1. Read Redis Set/Hash/String
-2. Create Redis Set/Hash/String
-3. Update Redis Set/Hash/String
-4. Customize Redis Connection URL
-5. Delete Key
-6. Search Key By Pattern
-7. Flush All Keys
-
