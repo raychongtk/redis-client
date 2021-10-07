@@ -21,7 +21,6 @@ public class CorsAdvice implements HttpServerFilter {
             res.getHeaders().add("Access-Control-Allow-Methods", "*");
             res.getHeaders().add("Access-Control-Allow-Origin", "*");
             res.getHeaders().add("Access-Control-Allow-Headers", "*");
-            res.getHeaders().add("Content-Type", "application/json");
         });
     }
 }
