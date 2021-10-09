@@ -1,8 +1,8 @@
 package redis;
 
-import common.RedisDateType;
 import redis.client.RedisClient;
 import redis.clients.jedis.Jedis;
+import redis.common.RedisDateType;
 import redis.service.RedisHashImpl;
 import redis.service.RedisListImpl;
 import redis.service.RedisSetImpl;

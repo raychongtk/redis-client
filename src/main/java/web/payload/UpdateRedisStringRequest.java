@@ -1,6 +1,6 @@
-package web.api;
+package web.payload;
 
-import common.TimeUnit;
+import redis.common.TimeUnit;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

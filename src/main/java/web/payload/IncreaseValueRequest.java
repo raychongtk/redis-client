@@ -1,4 +1,4 @@
-package web.api;
+package web.payload;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

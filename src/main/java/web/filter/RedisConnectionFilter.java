@@ -17,7 +17,7 @@ import javax.inject.Inject;
  * @author raychong
  */
 @Filter("/**")
-public class RedisConnectionHttpFilter extends OncePerRequestHttpServerFilter {
+public class RedisConnectionFilter extends OncePerRequestHttpServerFilter {
     @Inject
     Redis redis;
 

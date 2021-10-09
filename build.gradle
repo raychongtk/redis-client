@@ -2,6 +2,8 @@ group 'redis.core'
 version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'RedisApp'
 
 sourceCompatibility = JavaVersion.VERSION_15
 targetCompatibility = JavaVersion.VERSION_15
@@ -49,14 +51,13 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-validation")
     annotationProcessor("io.micronaut:micronaut-graal")
     compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    compileOnly("org.graalvm.nativeimage:svm")
+    compileOnly('org.graalvm.nativeimage:svm:21.2.0')
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     implementation("io.micronaut:micronaut-inject")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
-    implementation group: 'redis.clients', name: 'jedis', version: '3.3.0'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation('redis.clients:jedis:3.6.3')
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.13.0')
 }

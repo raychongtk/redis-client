@@ -1,6 +1,6 @@
-package web.api;
+package web.payload;
 
-import common.RedisDateType;
+import redis.common.RedisDateType;
 
 import javax.validation.constraints.NotNull;
 

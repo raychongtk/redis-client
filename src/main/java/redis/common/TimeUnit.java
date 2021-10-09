@@ -1,4 +1,4 @@
-package common;
+package redis.common;
 
 public enum TimeUnit {
     DAY,

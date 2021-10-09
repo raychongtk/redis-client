@@ -13,7 +13,7 @@ import org.reactivestreams.Publisher;
  * @author raychong
  */
 @Filter(value = "/**")
-public class CorsAdvice implements HttpServerFilter {
+public class CorsPolicyFilter implements HttpServerFilter {
     @Override
     public Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
         return Flowable.fromCallable(() -> true).subscribeOn(Schedulers.io()).switchMap(a -> chain.proceed(request)).doOnNext(res -> {

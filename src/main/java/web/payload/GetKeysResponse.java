@@ -1,4 +1,4 @@
-package web.api;
+package web.payload;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;

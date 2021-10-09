@@ -6,9 +6,9 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import redis.Redis;
 import util.Durations;
-import web.api.GetRedisStringResponse;
-import web.api.IncreaseValueRequest;
-import web.api.UpdateRedisStringRequest;
+import web.payload.GetRedisStringResponse;
+import web.payload.IncreaseValueRequest;
+import web.payload.UpdateRedisStringRequest;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;

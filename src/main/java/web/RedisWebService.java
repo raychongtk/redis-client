@@ -9,12 +9,12 @@ import io.micronaut.http.annotation.QueryValue;
 import redis.Redis;
 import util.Durations;
 import util.Strings;
-import web.api.ConnectRedisRequest;
-import web.api.ConnectRedisResponse;
-import web.api.DeleteRedisKeysRequest;
-import web.api.ExpireKeyRequest;
-import web.api.GetKeysResponse;
-import web.api.GetTypeResponse;
+import web.payload.ConnectRedisRequest;
+import web.payload.ConnectRedisResponse;
+import web.payload.DeleteRedisKeysRequest;
+import web.payload.ExpireKeyRequest;
+import web.payload.GetKeysResponse;
+import web.payload.GetTypeResponse;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;
