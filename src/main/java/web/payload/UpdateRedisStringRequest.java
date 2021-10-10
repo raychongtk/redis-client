@@ -14,10 +14,8 @@ public class UpdateRedisStringRequest {
     @NotBlank
     public String value;
 
-    @NotNull
     public TimeUnit timeUnit;
 
-    @NotNull
     @Min(1)
-    public Integer expiration;
+    public Integer expiration = 1;
 }
