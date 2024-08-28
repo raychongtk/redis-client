@@ -1,9 +1,6 @@
 # Redis Client
 web-based client for redis
 
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/raychongtk/redis-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/raychongtk/redis-client/context:java)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/raychongtk/redis-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/raychongtk/redis-client/alerts/)
-
 # Development
 To start a redis instance:
 
